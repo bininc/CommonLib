@@ -11,6 +11,7 @@ using CommLiby;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using System.Web;
+using CommLiby.CheckSum;
 
 namespace CommonLib
 {
@@ -120,6 +121,17 @@ namespace CommonLib
             {
                 return Common_liby.Convert2Type(type, val);
             }
+        }
+
+        /// <summary>
+        /// 数据类型转换
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="val">数据值</param>
+        /// <returns></returns>
+        public static T Convert2Type<T>(object val)
+        {
+            return Common_liby.Convert2Type<T>(val);
         }
 
         /// <summary>
@@ -512,6 +524,7 @@ namespace CommonLib
                     return byte.MaxValue; //非byte类型
             }
         }
+
         /// <summary>
         /// 获取指定字段的Bool类型值
         /// </summary>
@@ -658,7 +671,7 @@ namespace CommonLib
             try
             {
                 byte[] filedata = File.ReadAllBytes(fileName);
-                uint crc32 = Force.Crc32.Crc32Algorithm.Compute(filedata);
+                long crc32 = Crc32.Get(filedata);
                 filedata = null;
                 return crc32.ToString("X");
             }
