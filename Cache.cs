@@ -168,10 +168,10 @@ namespace CommonLib
         {
             try
             {
+                var marr = MemoryCache.Default.ToArray();
                 if (string.IsNullOrEmpty(key))
                 {
                     //清除所有缓存
-                    var marr = MemoryCache.Default.ToArray();
                     foreach (var item in marr)
                     {
                         MemoryCache.Default.Remove(item.Key);
@@ -179,8 +179,22 @@ namespace CommonLib
                 }
                 else
                 {
-                    //清除单个项
-                    MemoryCache.Default.Remove(key);
+                    if (key.EndsWith("*"))
+                    {
+                        key = key.TrimEnd('*');
+                        foreach (var item in marr)
+                        {
+                            if (item.Key.StartsWith(key, StringComparison.OrdinalIgnoreCase))
+                            {
+                                MemoryCache.Default.Remove(item.Key);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //清除单个项
+                        MemoryCache.Default.Remove(key);
+                    }
                 }
                 return true;
             }
