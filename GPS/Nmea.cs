@@ -46,7 +46,7 @@ namespace CommonLib.GPS
         {
             get
             {
-                return ConfigHelper.GetConfigBool("Nmea_AutoSyncTime", true);
+                return ConfigHelper.GetConfigBool("Nmea_AutoSyncTime", false);
             }
             set
             {

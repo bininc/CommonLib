@@ -61,8 +61,17 @@ namespace CommonLib.GPS
             int m = Convert.ToInt32(s.Substring(2, 2));
             int y = Convert.ToInt32(s.Substring(4, 2));
             // hack
-            int t = 2000 + y;
-            return new DateTime(t, m, d, 0, 0, 0, 0, DateTimeKind.Utc);
+            int t = 1999;
+            if (y != 99)
+                t = 2000 + y;
+            DateTime dt = new DateTime(t, m, d, 0, 0, 0, 0, DateTimeKind.Utc);
+
+            if (dt < new DateTime(2019, 4, 7, 0, 0, 0, DateTimeKind.Utc))   //gps日期翻转解决
+            {
+                dt = dt.AddDays(1024 * 7);
+            }
+
+            return dt;
 
         }
 
